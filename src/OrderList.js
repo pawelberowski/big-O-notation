@@ -1,6 +1,8 @@
 export class OrdersList {
   constructor() {
-    this.fetchDataOnInit().then(this.setDataStructures);
+    this.fetchDataOnInit()
+      .then(this.setDataStructures)
+      .then(this.activateButton);
   }
 
   async fetchDataOnInit() {
@@ -31,6 +33,11 @@ export class OrdersList {
     this.productsArray = productsArray;
     this.productsDictionary = this.createProductsDictionary(this.productsArray);
     this.buyersDictionary = this.createBuyersDictionary(this.buyersArray);
+    console.log(
+      this.ordersArray,
+      this.productsDictionary,
+      this.buyersDictionary,
+    );
   };
 
   createProductsDictionary(productsArray) {
@@ -65,4 +72,30 @@ export class OrdersList {
 
     return tile;
   }
+
+  render = () => {
+    this.ordersArray.forEach((order) => {
+      console.log(order);
+      const orderObject = {
+        id: order.id,
+        product: {
+          amount: 1,
+          name: this.productsDictionary[order.productId].name,
+        },
+      };
+      const buyer = {
+        name: this.buyersDictionary[order.buyerId].name,
+      };
+      const tile = this.createOrderTile(orderObject, buyer);
+      document.body.append(tile);
+    });
+  };
+
+  activateButton = () => {
+    const renderButton = document.querySelector('#render-button');
+    renderButton.addEventListener('click', () => {
+      this.render();
+    });
+    renderButton.classList.remove('hidden');
+  };
 }
