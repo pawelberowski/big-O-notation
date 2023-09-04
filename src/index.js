@@ -1,5 +1,4 @@
 import './styles.css';
+import { OrdersList } from './OrderList';
 
-const paragraph = document.createElement('p');
-paragraph.innerText = 'Hello!';
-document.body.append(paragraph);
+const list = new OrdersList();
